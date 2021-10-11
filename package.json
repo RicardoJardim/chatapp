@@ -1,0 +1,29 @@
+{
+  "name": "chatapp",
+  "version": "1.0.0",
+  "description": "chatapp",
+  "main": "/server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./server/index.js ",
+    "run": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RicardoJardim/chatapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RicardoJardim/chatapp/issues"
+  },
+  "homepage": "https://github.com/RicardoJardim/chatapp#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.13",
+    "path": "^0.12.7",
+    "socket.io": "^4.2.0"
+  }
+}
