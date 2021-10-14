@@ -1,0 +1,65 @@
+.chat {
+  padding-top: 10px;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
+  gap: 10px;
+  height: 10vh;
+  box-shadow: 2px -5px 7px 0px grey;
+  border-radius: 10px 00px 0px 0px;
+}
+#scrollable {
+  padding: 1rem;
+  height: 85vh;
+  overflow-y: auto;
+}
+
+#text {
+  padding: 12px 30px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 25px;
+}
+
+input:focus {
+  border-color: var(--primary);
+}
+
+button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 12px 18px;
+  border-radius: 25px;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.chatBallon {
+  width: auto;
+  max-width: 70%;
+  padding: 0.7rem 0.8rem;
+  border-radius: 25px;
+  margin-top: 0.6rem;
+}
+
+.chatBallon.mine {
+  background-color: var(--primary);
+  color: white;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.chatBallon.others {
+  background-color: white;
+  color: var(--primary);
+}
+
+.chatBallon.newuser {
+  background-color: white;
+  color: rgb(59, 59, 59);
+}

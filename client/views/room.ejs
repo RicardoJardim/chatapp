@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script>
+      const ROOM_ID = "<%= roomId %>";
+    </script>
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"
+      integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="/public/room.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mulish:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/public/css/globals.css" />
+    <link rel="stylesheet" href="/public/css/room.css" />
+
+    <title>Document</title>
+  </head>
+  <body style="margin: 0px; font-family: 'Mulish', sans-serif">
+    <div class="container">
+      <div id="video-grid"></div>
+      <div id="chat"><%- include('partials/chat') %></div>
+    </div>
+  </body>
+</html>
