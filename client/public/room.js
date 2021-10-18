@@ -21,7 +21,6 @@ navigator.mediaDevices
   })
   .then((stream) => {
     addVideoStream(myVideo, stream);
-    console.log("ola");
     myPeer.on("call", (call) => {
       call.answer(stream);
       const video = document.createElement("video");

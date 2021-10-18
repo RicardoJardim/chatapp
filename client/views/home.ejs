@@ -4,31 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ChatApp</title>
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mulish:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/public/css/globals.css" />
+    <link rel="stylesheet" href="/public/css/home.css" />
   </head>
-  <body>
+  <body
+    style="margin: 0px; font-family: 'Mulish', sans-serif; overflow: hidden"
+  >
     <div class="container">
-      <div class="inbox">
-        <div class="inbox__people">
-          <h4>Active users</h4>
-        </div>
-        <div class="inbox__messages">
-          <div class="messages__history"></div>
-          <div class="fallback"></div>
-        </div>
+      <img src="/public/images/chatting-app.png" alt="" />
+      <div id="create" class="box" onclick="create()">
+        <h3>Create a new Call</h3>
       </div>
-
-      <form class="message_form">
-        <input
-          type="text"
-          class="message_form__input"
-          placeholder="Type a message"
-        />
-        <button class="message_form__button" type="submit">Enter</button>
-      </form>
+      <div id="join" class="box" onclick="join()">
+        <h3>Join a Call</h3>
+      </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-    <script src="main.js"></script>
   </body>
+
+  <script>
+    function create() {
+      location.href = "/chat/room";
+    }
+
+    function join() {
+      var item = prompt("Insira o codigo da sala");
+      if (item == null || item == "") {
+        alert("O seu pedido foi cancelado!");
+      } else {
+        location.href = "/chat/" + item;
+      }
+    }
+  </script>
 </html>

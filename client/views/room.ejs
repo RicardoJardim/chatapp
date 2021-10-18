@@ -25,14 +25,26 @@
     <link rel="stylesheet" href="/public/css/globals.css" />
     <link rel="stylesheet" href="/public/css/room.css" />
 
-    <title>Document</title>
+    <title>ChatApp</title>
   </head>
   <body
     style="margin: 0px; font-family: 'Mulish', sans-serif; overflow: hidden"
   >
+    <div id="roomidToShow">
+      Room id: <%= roomId %>
+      <button onclick="myFunction()">Copy room id</button>
+    </div>
     <div class="container">
       <div id="video-grid"></div>
       <div id="chat"><%- include('partials/chat') %></div>
     </div>
   </body>
+
+  <script>
+    function myFunction() {
+      navigator.clipboard.writeText(ROOM_ID);
+
+      alert("Copied the text: " + ROOM_ID);
+    }
+  </script>
 </html>

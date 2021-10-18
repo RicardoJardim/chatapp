@@ -37,35 +37,46 @@ app.use("/public", express.static(clientPath + "/public"));
 
 const io = socket(server);
 
-app.get("/", (req, res) => {
-  res.render("home");
-});
-
-app.get("/chat/new", (req, res) => {
-  res.redirect(`/chat/${uuidV4()}`);
-});
-
-/* 
-Chat
-  code = 1 -> new user
-  code = 2 -> others msg 
-*/
-
 const ChatCodes = {
   WARNING: 1,
   NEW_USER: 2,
   OTHERSUSERS: 3,
 };
 
-app.get("/chat/:room", (req, res) => {
-  res.render("room", { roomId: req.params.room });
+var ROOMS = [];
+
+app.get("/", (req, res) => {
+  res.render("home");
 });
+
+app.get("/chat/room", (req, res) => {
+  let roomStructure = {
+    id: uuidV4(),
+    pwd: "123123" + Math.random() * (100 - 10) + 10 + "98642",
+    users: [],
+  };
+  ROOMS.push(roomStructure);
+  res.render("room", { roomId: roomStructure.id });
+});
+
+app.get("/chat/:room", (req, res) => {
+  var foundIndex = ROOMS.findIndex((x) => x.id == req.params.room);
+  if (foundIndex > -1) res.render("room", { roomId: req.params.room });
+  else res.render("home");
+});
+
+//    window.location.reload(); -> RENDER AFTER POST REQUEST
 
 io.on("connection", (socket) => {
   socket.on("join-room", (roomId, userId) => {
+    console.log(userId);
     socket.join(roomId);
     socket.to(roomId).emit("user-connected", userId);
 
+    var foundIndex = ROOMS.findIndex((x) => x.id == roomId);
+    ROOMS[foundIndex].users.push(userId);
+
+    console.log(ROOMS);
     socket.broadcast.to(roomId).emit("chat", {
       code: ChatCodes.NEW_USER,
       message: userId + " entered the room",
@@ -73,6 +84,17 @@ io.on("connection", (socket) => {
 
     socket.on("disconnect", () => {
       socket.to(roomId).emit("user-disconnected", userId);
+      var foundIndex = ROOMS.findIndex((x) => x.id == roomId);
+      if (foundIndex > -1) {
+        if (ROOMS[foundIndex].users.length <= 1) {
+          var userIndex = ROOMS[foundIndex].users.indexOf(userId);
+          if (userIndex > -1) {
+            ROOMS[foundIndex].users.splice(userIndex, 1);
+          }
+        } else {
+          ROOMS.splice(foundIndex, 1);
+        }
+      }
     });
   });
 
