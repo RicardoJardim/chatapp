@@ -4,7 +4,7 @@ const videoGrid = document.getElementById("video-grid");
 
 const myPeer = new Peer(undefined, {
   host: "/",
-  port: "5001",
+  port: "8001",
 });
 
 const myVideo = document.createElement("video");
@@ -20,12 +20,12 @@ navigator.mediaDevices
     audio: true,
   })
   .then((stream) => {
-    addVideoStream(myVideo, stream);
+    addVideoStream(myID,myVideo, stream);
     myPeer.on("call", (call) => {
       call.answer(stream);
       const video = document.createElement("video");
       call.on("stream", (userVideoStream) => {
-        addVideoStream(video, userVideoStream);
+        addVideoStream(myID,video, userVideoStream);
       });
     });
 
@@ -40,13 +40,15 @@ navigator.mediaDevices
     defaultvideo.className = "novideo";
 
     const txt = "Fake Nigga";
-    const card = createVideoCard(txt, defaultvideo);
+    const card = createVideoCard(myID,txt, defaultvideo);
 
     videoGrid.append(card);
   });
 
 socket.on("user-disconnected", (userId) => {
   if (peers[userId]) peers[userId].close();
+  var el = document.getElementById(userId);
+  el.remove();
 });
 
 socket.on("chat", (data) => {
@@ -83,7 +85,7 @@ function connectToNewUser(userId, stream) {
   const call = myPeer.call(userId, stream);
   const video = document.createElement("video");
   call.on("stream", (userVideoStream) => {
-    addVideoStream(video, userVideoStream);
+    addVideoStream(userId,video, userVideoStream);
   });
   call.on("close", () => {
     video.remove();
@@ -92,26 +94,26 @@ function connectToNewUser(userId, stream) {
   peers[userId] = call;
 }
 
-function addVideoStream(video, stream) {
+
+function addVideoStream(userId,video, stream) {
   video.srcObject = stream;
   video.addEventListener("loadedmetadata", () => {
     video.play();
   });
   const txt = "Fake Nigga";
-  const card = createVideoCard(txt, video);
-  //videoGrid.append(video);
+  const card = createVideoCard(userId,txt, video);
   videoGrid.append(card);
 }
 
-function createVideoCard(txt, obj) {
+function createVideoCard(id, txt, obj) {
   const card = document.createElement("div");
   card.className = "cardVideo";
+  card.id = id;
 
   const text = document.createElement("span");
   text.innerHTML = txt;
 
   card.appendChild(obj);
   card.appendChild(text);
-
   return card;
 }

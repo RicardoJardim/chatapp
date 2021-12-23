@@ -7,7 +7,7 @@ const cors = require("cors");
 const { v4: uuidV4 } = require("uuid");
 
 // PORT setup
-const PORT = 5000;
+const PORT = 8000;
 
 //CORS
 const allowlist = ["http://localhost:5000"];
