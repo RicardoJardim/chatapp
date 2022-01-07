@@ -69,9 +69,9 @@ app.get("/chat/:room", (req, res) => {
 
 io.on("connection", (socket) => {
   socket.on("join-room", (roomId, userId) => {
-    console.log(userId);
     socket.join(roomId);
-    socket.to(roomId).emit("user-connected", userId);
+
+    socket.broadcast.to(roomId).emit("user-connected", userId);
 
     var foundIndex = ROOMS.findIndex((x) => x.id == roomId);
     ROOMS[foundIndex].users.push(userId);
@@ -83,7 +83,13 @@ io.on("connection", (socket) => {
     });
 
     socket.on("disconnect", () => {
-      socket.to(roomId).emit("user-disconnected", userId);
+      socket.broadcast.to(roomId).emit("user-disconnected", userId);
+
+      socket.broadcast.to(roomId).emit("chat", {
+        code: ChatCodes.NEW_USER,
+        message: userId + " left the room",
+      });
+
       var foundIndex = ROOMS.findIndex((x) => x.id == roomId);
       if (foundIndex > -1) {
         if (ROOMS[foundIndex].users.length <= 1) {
@@ -95,6 +101,14 @@ io.on("connection", (socket) => {
           ROOMS.splice(foundIndex, 1);
         }
       }
+    });
+  });
+
+  socket.on("userinroom", (roomId) => {
+    var foundIndex = ROOMS.findIndex((x) => x.id == roomId);
+
+    io.to(socket.id).emit("others", {
+      users: ROOMS[foundIndex].users,
     });
   });
 
